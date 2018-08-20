@@ -103,8 +103,8 @@
        "order1":"1"
     }
   },
-  "cpp":{
-   "contains":"",
+  "any":{
+   "contains":"pragma",
    "parameters":{
     },
     "splitparam":"",
