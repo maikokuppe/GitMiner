@@ -1,6 +1,8 @@
 import json
 import sys
 import re
+import urllib.request
+import hashlib
 from lxml import html
 sys.path.append('../')
 from core.sendRequest import requestPage
@@ -10,7 +12,7 @@ from config import headers as head
 
 
 class Parser(object):
-    
+
     def __init__(self):
         # XPATH QUERIES
         self.PAGINATION = '//div[contains(@class, "pagination")]/a/text()'
@@ -18,7 +20,7 @@ class Parser(object):
         self.LASTINDEXED = '//div[contains(@class, "d-flex")]/div/div[contains(@class, "flex-column")]/span[2]/relative-time/@datetime'
         self.USER = '//div[contains(@class, "d-flex")]/a[1]/img/@alt'
         self.NEXTPAGE = '//a[contains(@class, "next_page")]/@href'
-        
+
         # URL GITHUB
         self.github_url = 'https://github.com'
         self.github_raw_url = 'https://raw.githubusercontent.com'
@@ -78,7 +80,7 @@ class Parser(object):
         match_regex = re.findall( r'{}'.format(regex), content_html, re.M|re.I)
         print("\n{GREEN}[+]{END} {BLUE}REGEX FOUND{END}:".format(**colors))
         for get_regex in match_regex:
-            print("{GREEN} + {END} MATCH: %s".format(**colors) % get_regex) 
+            print("{GREEN} + {END} MATCH: %s".format(**colors) % get_regex)
 
 
     def codeParser(self, content_html, config, user, filename, regex):
@@ -95,7 +97,7 @@ class Parser(object):
             except Exception as inst:
                 #print(inst)
                 pass
-        
+
         if regex is not None:
             self.getRegex(content_html, regex)
 
@@ -123,16 +125,21 @@ class Parser(object):
             content_html = content_html.text
             print("{GREEN}[+]{END} {BLUE}USER{END}: %s".format(**colors) % user[number_url])
             print("{GREEN}[+]{END} {BLUE}LINK{END}: %s\n".format(**colors) % url_code)
+
             try:
+                # Download file
+                # file = urllib.URLopener()
+                hashed_filename = '/saved/' + hashlib.sha1(url_code.encode()).hexdigest() + '.cpp'
+                urllib.request.urlretrieve(url_code, hashed_filename)
                 print("{GREEN}[+]{END} {BLUE}LAST INDEXED{END}: %s".format(**colors) \
                       % last_indexed[number_url])
             except Exception as inst:
-                #print(inst)
+                print(inst)
                 pass
             self.codeParser(content_html, config, user[number_url], filename, regex)
 
         if not next_page:
-            sys.exit() 
+            sys.exit()
         next_page = next_page[0]
         next_page = self.github_url + next_page
         nextPage(next_page, number_page, headers, cookie, config, filename, regex)
