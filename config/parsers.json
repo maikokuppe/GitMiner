@@ -2,10 +2,10 @@
   "asterisk":{
     "contains":"",
     "parameters":{
-      "param1":"username", 
-      "param2":"secret", 
-      "param3":"fromuser", 
-      "param4":"fromdomain", 
+      "param1":"username",
+      "param2":"secret",
+      "param3":"fromuser",
+      "param4":"fromdomain",
       "param5":"host"
     },
     "splitparam":"=",
@@ -16,10 +16,10 @@
   "gmail":{
     "contains":"",
     "parameters":{
-      "param1":"MAIL_HOST", 
-      "param2":"MAIL_PORT", 
-      "param3":"MAIL_USERNAME", 
-      "param4":"MAIL_PASSWORD" 
+      "param1":"MAIL_HOST",
+      "param2":"MAIL_PORT",
+      "param3":"MAIL_USERNAME",
+      "param4":"MAIL_PASSWORD"
     },
     "splitparam":"=",
     "splitorder":{
@@ -101,6 +101,14 @@
     "splitparam":":",
     "splitorder":{
        "order1":"1"
+    }
+  },
+  "cpp":{
+   "contains":"",
+   "parameters":{
+    },
+    "splitparam":"",
+    "splitorder":{
     }
   }
 }
